@@ -12,7 +12,7 @@ const Details = (details) => {
         Currency: "Currency",
         Exchange: "Exchange",
         Sector: "Sector",
-        IPO: "IPO Date",
+        DividendDate: "Dividend Date",
         MarketCapitalization: "Market Capitalization",
         Industry: "Industry"
     }

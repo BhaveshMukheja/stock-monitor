@@ -70,7 +70,7 @@ const [data, setData]=useState(mockHistoricalData[`Time Series (${intervalFilter
             {Object.keys(interval).map((item)=>{
                 return(
                     <li key={item}>
-                        <ChartFilter text={item} infoTypeFilter={infoTypeFilter} active={intervalFilter===item}  infoTypeColor={infoTypeColorList[infoTypeFilter]} onClick={()=>{
+                        <ChartFilter text={item}  active={intervalFilter===item}  onClick={()=>{
                             setIntervalFilter(item);
                             // setData(mockHistoricalData[`Time Series (${intervalFilter}min)`])                       
                              }}/>

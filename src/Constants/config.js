@@ -22,3 +22,10 @@ export const infoTypeColorList = {
 
 }
 
+export const tailwindChartColorConfig = {
+    "1. open":"teal-500",
+    "2. high":"cyan-400",
+    "3. low": "rose-400",
+    "4. close": "indigo-500",
+    "5. volume": "lime-600",
+}
