@@ -14,10 +14,11 @@ export const infoType ={
 }
 
 export const infoTypeColorList = {
-    "1. open":"#62b9e5",
-    "2. high":"#62e5df",
-    "3. low":"#d282f0",
-    "4. close": "#6462e5",
-    "5. volume": "#b9e17d"
+    "1. open":"#14b8a6",//teal-500
+    "2. high":"#22d3ee",//cyan-400
+    "3. low":"#fb7185", //Rose-400
+    "4. close": "#6366f1",//indigo-500
+    "5. volume": "#65a30d"//lime-600
 
 }
+

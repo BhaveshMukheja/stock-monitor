@@ -8,7 +8,7 @@ module.exports = {
       colors:{
         white: "white",
         none: "none",
-        open:"#62b9e5",
+        "1. open":"#62b9e5",
         high:"#62e5df",
         low:"#d282f0",
         close: "#6462e5",

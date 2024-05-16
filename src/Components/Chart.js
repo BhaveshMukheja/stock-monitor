@@ -3,6 +3,8 @@ import { mockHistoricalData } from '../Constants/mock'
 import Card from './Card'
 import ChartFilter from './ChartFilter';
 import Dropdown from"./Dropdown";
+import Calender from "./Calender"
+import dayjs from 'dayjs';
 import * as React from 'react';
 import { LineChart } from '@mui/x-charts/LineChart';
 import {
@@ -14,6 +16,7 @@ import {
   import { interval, infoTypeColorList } from '../Constants/config';
 import ThemeContext from '../Context/ThemeContext';
 import { createTheme, useTheme, ThemeProvider } from '@mui/material/styles';
+
 
 
 const Chart = (historicalData) => {
@@ -39,7 +42,10 @@ const [intervalFilter, setIntervalFilter] = useState("60")
 const [data, setData]=useState(mockHistoricalData[`Time Series (${intervalFilter}min)`])
 
 
-    const [month, setMonth] = useState("");
+    const [dateValue, setDateValue] = useState(dayjs());
+     
+ const formatedDate = dateValue.format('YYYY-MM')
+
 
 
 
@@ -50,14 +56,21 @@ const [data, setData]=useState(mockHistoricalData[`Time Series (${intervalFilter
 
   return (
     <Card>
+
+    
          <ThemeProvider theme={darkMode?darkTheme:lightTheme}>
-        <Dropdown  infoTypeFilter={infoTypeFilter}setInfoTypeFilter={setInfoTypeFilter} />
+      <div className="w-full flex flex-row absolute top-1 left-0  justify-between items-center z-40 gap-x-2">
+        <Dropdown infoTypeFilter={infoTypeFilter }setInfoTypeFilter={setInfoTypeFilter} />
+        <Calender dateValue={formatedDate} setDateValue={setDateValue}/>
        
-        <ul className='flex absolute top-2 right-2 z-40'>
+        
+        
+       
+        <ul className='flex  top-2 right-2 z-40'>
             {Object.keys(interval).map((item)=>{
                 return(
                     <li key={item}>
-                        <ChartFilter text={item} infoTypeFilter={infoTypeFilter} active={intervalFilter===item} onClick={()=>{
+                        <ChartFilter text={item} infoTypeFilter={infoTypeFilter} active={intervalFilter===item}  infoTypeColor={infoTypeColorList[infoTypeFilter]} onClick={()=>{
                             setIntervalFilter(item);
                             // setData(mockHistoricalData[`Time Series (${intervalFilter}min)`])                       
                              }}/>
@@ -65,9 +78,10 @@ const [data, setData]=useState(mockHistoricalData[`Time Series (${intervalFilter
                 )
             })}
         </ul>
+        </div>
         
-         <LineChart
-         margin={{top:10}}
+         <LineChart className='absolute '
+         
         colors={[infoTypeColorList[infoTypeFilter]]}
          
       series={[{ data: uData, showMark: false }]}

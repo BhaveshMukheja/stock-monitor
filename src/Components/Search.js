@@ -22,7 +22,8 @@ const Search = () => {
         try {
             if(input){
                 console.log(input)
-                const stockDetails = await fetchStockDetails(input);
+                const stockDetails = mockSearchResults;
+                // const stockDetails = await fetchStockDetails(input);
                 // console.log(stockDetails)
                 
                 bestMatches.push(stockDetails)

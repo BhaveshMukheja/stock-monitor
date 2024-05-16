@@ -161,8 +161,8 @@ export const mockSearchResults =
     "ExDividendDate": "2024-08-15"
    }
 
-   export const mockStockQuote ={ 
-    "Global Quote": {
+   export const mockStockQuote =[
+    {
         "01. symbol": "WMT",
         "02. open": "60.6200",
         "03. high": "61.3450",
@@ -173,8 +173,35 @@ export const mockSearchResults =
         "08. previous close": "60.4800",
         "09. change": "-0.0700",
         "10. change percent": "-0.1157%"
-    }
-   }
+    },
+
+    {
+        "01. symbol": "GOO",
+        "02. open": "60.6200",
+        "03. high": "61.3450",
+        "04. low": "60.2900",
+        "05. price": "600.4100",
+        "06. volume": "19260522",
+        "07. latest trading day": "2024-05-13",
+        "08. previous close": "60.4800",
+        "09. change": "0.0700",
+        "10. change percent": "0.1157%"
+    },
+    {
+        "01. symbol": "MSFT",
+        "02. open": "60.6200",
+        "03. high": "61.3450",
+        "04. low": "60.2900",
+        "05. price": "30.4100",
+        "06. volume": "19260522",
+        "07. latest trading day": "2024-05-13",
+        "08. previous close": "60.4800",
+        "09. change": "-0.0900",
+        "10. change percent": "-0.1257%"
+    },
+
+
+]
 
 export const mockHistoricalData ={
     "Meta Data": {
