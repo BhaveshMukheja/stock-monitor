@@ -16,6 +16,7 @@ import MonitorHeartIcon from '@mui/icons-material/MonitorHeart';
 import ThemeContext from '../Context/ThemeContext';
 import { createTheme, useTheme, ThemeProvider } from '@mui/material/styles';
 import { grey } from '@mui/material/colors';
+import userAvatar from "../Images/userAvatar.png"
 
 const pages = ['Dashboard', 'Your Wishlist'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Whishlist', 'Logout'];
@@ -182,7 +183,7 @@ const getDesignTokens = (mode) => ({
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Bemy Sharp" src={userAvatar} />
               </IconButton>
             </Tooltip>
             <Menu
