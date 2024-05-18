@@ -16,6 +16,8 @@ import { Link } from '@mui/material';
 import { Navigate, useNavigate } from "react-router-dom";
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import UserIdContext from '../Context/UserIdContext';
+import prisma from '../../prisma/index';
 
 
 const mockQuoteList = {
@@ -63,6 +65,24 @@ for(var i =0 ; i<mockStockQuote.length;i++){
 const Wishlist2 = () => {
     // const navigate = useNavigate();
      const {darkMode} = React.useContext(ThemeContext)
+     const {userId} = React.useContext(UserIdContext)
+
+     const handleClick = async() =>{
+      try {
+        const user =  await prisma.user.findUnique({
+          where: {
+            id: userId,
+          },
+        })
+
+
+      } catch (error) {
+        
+      }
+    
+     }
+
+     
      const darkTheme = createTheme({
         typography: {
             fontFamily: 'Quicksand, sans-serif',
@@ -155,7 +175,7 @@ const Wishlist2 = () => {
                             <div className=' flex justify-around items-center'>
                               
                                     
-                           <button> <RemoveCircleIcon hover sx={{ color: pink[300], ":hover":{color:pink[500]} }} /></button>
+                           <button> <RemoveCircleIcon hover onClick={handleClick} sx={{ color: pink[300], ":hover":{color:pink[500]}}} /></button>
                             <button><OpenInNewIcon/></button>
                                
                             </div>
@@ -166,7 +186,7 @@ const Wishlist2 = () => {
                         if(trendCol){
                             
                             return (
-                                <TableCell sx={value[0]==='-'?{color:red.A400}:{color:green.A400}} key={column.id} align={column.align}>
+                                <TableCell sx={value[0]==='-' ?{color:red.A400}:{color:green.A400}} key={column.id} align={column.align}>
                                    {column.format && typeof value === 'number'
                                      ? column.format(value)
                                      : value}

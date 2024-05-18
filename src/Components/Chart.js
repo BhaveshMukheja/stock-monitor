@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { mockHistoricalData } from '../Constants/mock'
 import Card from './Card'
 import ChartFilter from './ChartFilter';
@@ -16,12 +16,14 @@ import {
   import { interval, infoTypeColorList } from '../Constants/config';
 import ThemeContext from '../Context/ThemeContext';
 import { createTheme, useTheme, ThemeProvider } from '@mui/material/styles';
-
+import { fetchHistorialData } from '../api/stockApi';
+import StockContext from '../Context/StockContext';
 
 
 const Chart = (historicalData) => {
    
     const {darkMode} = useContext(ThemeContext)
+    const {stockSymbol} = useContext(StockContext)
     const darkTheme = createTheme({
         palette: {
           mode: 'dark',
@@ -33,13 +35,13 @@ const Chart = (historicalData) => {
           mode: 'light',
         },
       });
-    const uData = []
+const uData = []
 const xLabels = []
 
 const [infoTypeFilter, setInfoTypeFilter] = useState("4. close")
 
-const [intervalFilter, setIntervalFilter] = useState("60")
-const [data, setData]=useState(mockHistoricalData[`Time Series (${intervalFilter}min)`])
+const [intervalFilter, setIntervalFilter] = useState("5")
+const [data, setData]=useState('{}')
 
 
     const [dateValue, setDateValue] = useState(dayjs());
@@ -47,12 +49,34 @@ const [data, setData]=useState(mockHistoricalData[`Time Series (${intervalFilter
  const formatedDate = dateValue.format('YYYY-MM')
 
 
-
-
+ useEffect(() => {
+     
+ const fetchData = async()=>{
+  try {
+    const result = await fetchHistorialData(stockSymbol, intervalFilter, formatedDate)
+    setData(result[`Time Series (${intervalFilter}min)`])
+    
     Object.keys(data).map((item)=>{
-        xLabels.push(item)     
-        uData.push(data[item][infoTypeFilter])
-          })
+      xLabels.push(item)     
+      uData.push(data[item][infoTypeFilter])
+        })
+  } catch (error) {
+    console.log(error)
+    setData('{}')
+  }
+
+ }
+
+fetchData()
+ 
+}, [stockSymbol, intervalFilter, dateValue])
+
+
+
+
+
+    
+          
 
   return (
     <Card>
@@ -80,7 +104,7 @@ const [data, setData]=useState(mockHistoricalData[`Time Series (${intervalFilter
         </ul>
         </div>
         
-         <LineChart className='absolute '
+         <LineChart className='absolute'
          
         colors={[infoTypeColorList[infoTypeFilter]]}
          

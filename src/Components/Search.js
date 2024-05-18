@@ -6,9 +6,11 @@ import { yellow } from '@mui/material/colors';
 import SeacrhResults from './SeacrhResults';
 import ThemeContext from '../Context/ThemeContext';
 import { fetchStockDetails } from '../api/stockApi';
+import StockContext from '../Context/StockContext';
 
 const Search = () => {
     const {darkMode} = useContext(ThemeContext)
+    const {setStockSymbol} = useContext(StockContext)
     const [input, setInput] = useState("")
     const [bestMatches, setBestMatches] = useState([])
     const clear = () =>{
@@ -21,10 +23,11 @@ const Search = () => {
         
         try {
             if(input){
+                setStockSymbol(input)
                 console.log(input)
-                const stockDetails = mockSearchResults;
-                // const stockDetails = await fetchStockDetails(input);
-                // console.log(stockDetails)
+                // const stockDetails = mockSearchResults;
+                const stockDetails = await fetchStockDetails(input);
+                console.log(stockDetails)
                 
                 bestMatches.push(stockDetails)
                 
@@ -52,7 +55,7 @@ const Search = () => {
       {input && (<button className='m-1' onClick={clear}>
             <CrossIcon className='h-4 w-4'/>
         </button>)}
-        <button onClick={updateBestMatches} className='h-8 w-8 bg-indigo-600 rounded-md flex justify-center items-center m-1 p-2'>
+        <button onClick={updateBestMatches} className='h-8 w-8 bg-indigo-600 rounded-md flex justify-center items-center m-1 p-2 transition duration-300 hover:ring-2 ring-indigo-400'>
             <SearchIcon sx={{color: yellow[50]}}/>
         </button>
         {input && bestMatches.length>0 ?(<SeacrhResults results={bestMatches}/>):null}
