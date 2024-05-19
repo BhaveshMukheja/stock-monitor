@@ -23,16 +23,18 @@ const Search = () => {
         
         try {
             if(input){
-                setStockSymbol(input)
-                console.log(input)
+                const sym = input.toUpperCase();
+                setStockSymbol(sym)
+                console.log(sym)
                 // const stockDetails = mockSearchResults;
-                const stockDetails = await fetchStockDetails(input);
+                const stockDetails = await fetchStockDetails(sym);
                 console.log(stockDetails)
                 
                 bestMatches.push(stockDetails)
                 
                 setBestMatches(bestMatches)
                 console.log(bestMatches)
+                
 
             }
         } catch (error) {

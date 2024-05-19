@@ -20,7 +20,7 @@ import { fetchHistorialData } from '../api/stockApi';
 import StockContext from '../Context/StockContext';
 
 
-const Chart = (historicalData) => {
+const Chart = () => {
    
     const {darkMode} = useContext(ThemeContext)
     const {stockSymbol} = useContext(StockContext)
@@ -35,8 +35,8 @@ const Chart = (historicalData) => {
           mode: 'light',
         },
       });
-const uData = []
-const xLabels = []
+let uData = []
+let xLabels = []
 
 const [infoTypeFilter, setInfoTypeFilter] = useState("4. close")
 
@@ -52,14 +52,13 @@ const [data, setData]=useState('{}')
  useEffect(() => {
      
  const fetchData = async()=>{
+
+  console.log("I am here fetcing the historical data ")
+  
   try {
     const result = await fetchHistorialData(stockSymbol, intervalFilter, formatedDate)
     setData(result[`Time Series (${intervalFilter}min)`])
     
-    Object.keys(data).map((item)=>{
-      xLabels.push(item)     
-      uData.push(data[item][infoTypeFilter])
-        })
   } catch (error) {
     console.log(error)
     setData('{}')
@@ -67,7 +66,24 @@ const [data, setData]=useState('{}')
 
  }
 
+ const updateChartData = async()=>{
+  try {
+    console.log("I am here updating the chart data  ")
+    xLabels = []
+    uData = []
+    Object.keys(data).map((item)=>{
+      xLabels.push(item)     
+      uData.push(data[item][infoTypeFilter])
+        })
+  } catch (error) {
+    console.log(error)
+   
+  }
+
+ }
+
 fetchData()
+updateChartData()
  
 }, [stockSymbol, intervalFilter, dateValue])
 

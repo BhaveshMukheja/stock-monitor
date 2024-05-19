@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
 
-const {signup, login, logout, addToWishlist, removeFromWishlist} = require('../controllers/userController')
+const {signup, signin, logout, addToWishlist, removeFromWishlist} = require('../controllers/userController')
 router.route('/signup').post(signup)
-router.route('/login').post(login)
+router.route('/signin').post(signin)
 router.route('/logout').get(logout)
 router.route('/add/:id').put(addToWishlist)
 router.route('/remove/:id').put(removeFromWishlist)

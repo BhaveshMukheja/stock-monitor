@@ -1,4 +1,5 @@
 import * as React from 'react';
+// import { useNavigate } from 'react-router-dom';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -13,18 +14,24 @@ import { green, grey, lime, pink, red } from '@mui/material/colors';
 import Card from './Card';
 import { mockStockQuote } from '../Constants/mock';
 import { Link } from '@mui/material';
-import { Navigate, useNavigate } from "react-router-dom";
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import UserIdContext from '../Context/UserIdContext';
-import prisma from '../../prisma/index';
+import axios from 'axios';
+import { useEffect } from 'react';
+import { fetchQuote } from '../api/stockApi';
+import StockContext from '../Context/StockContext';
 
 
-const mockQuoteList = {
+
+
+const quoteList = {
     "01. symbol":"symbol",
     "05. price": "50000",
     "10. change percent": "",
 }
+
+let rows = []
 
 const columns = [
     { id: '01. symbol', label: 'Symbol', minWidth: 275, align: 'left' },
@@ -48,39 +55,61 @@ const columns = [
   
 
 
-const rows = [];
 
-for(var i =0 ; i<mockStockQuote.length;i++){
-    let x = {}
-    Object.keys(mockQuoteList).map((item)=>{
-       
-        x[item] = mockStockQuote[i][item]
-    })
-    rows.push(x)
-}
+const host="http://localhost/5555"
 
-
+ 
 
 
 const Wishlist2 = () => {
-    // const navigate = useNavigate();
-     const {darkMode} = React.useContext(ThemeContext)
-     const {userId} = React.useContext(UserIdContext)
 
-     const handleClick = async() =>{
-      try {
-        const user =  await prisma.user.findUnique({
-          where: {
-            id: userId,
-          },
-        })
+  const [userWishlist, setUserWishlist] = React.useState([])
+ const {darkMode} = React.useContext(ThemeContext)
+ const {userId} = React.useContext(UserIdContext)
+ const {setStockSymbol} = React.useContext(StockContext)
+ const [page, setPage] = React.useState(0);
+ const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+ const handleRemoveClick = async(e) =>{
+  const symbol = e.target.value
+  const quote = await fetchQuote(symbol)
+  e.preventDefault();
+  try {
+    const response = axios.put(`${host}/api/remove/${userId}`, quote)
+    const result = response.data
+    console.log(result)
+    updateRowData();
+  //  const response = await fetch(`${host}/api/remove/${userId}`,)
 
 
-      } catch (error) {
-        
-      }
-    
-     }
+  } catch (error) {
+    console.log("Wasn't able to get the wishlist")
+     throw new  Error ("Wasn't able to get the wishlist")
+  }
+
+ }
+
+
+
+const updateRowData = async() =>{
+ rows = [];
+for(var i =0 ; i<userWishlist.length;i++){
+ const obj =  await fetchQuote(userWishlist[i])
+    let x = {}
+    Object.keys(quoteList).map((item)=>{
+       
+        x[item] = obj["Global Quote"][item]
+    })
+    rows.push(x)
+} 
+
+}
+
+const handleOpenInNew = async(e)=>{
+  const symbol = e.target.value
+  setStockSymbol(symbol)
+}
+
 
      
      const darkTheme = createTheme({
@@ -101,10 +130,6 @@ const Wishlist2 = () => {
         },
       });
   
-
-    const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -175,8 +200,8 @@ const Wishlist2 = () => {
                             <div className=' flex justify-around items-center'>
                               
                                     
-                           <button> <RemoveCircleIcon hover onClick={handleClick} sx={{ color: pink[300], ":hover":{color:pink[500]}}} /></button>
-                            <button><OpenInNewIcon/></button>
+                           <button onClick={handleRemoveClick} value={row["01. symbol"]}> <RemoveCircleIcon hover  sx={{ color: pink[300], ":hover":{color:pink[500]}}} /></button>
+                            <button onClick={handleOpenInNew} value={row["01. symbol"]}><OpenInNewIcon/></button>
                                
                             </div>
                             </TableCell>

@@ -12,12 +12,21 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Link from '@mui/material/Link';
-import MonitorHeartIcon from '@mui/icons-material/MonitorHeart';
 import ThemeContext from '../Context/ThemeContext';
 import { createTheme, useTheme, ThemeProvider } from '@mui/material/styles';
 import { grey } from '@mui/material/colors';
 import userAvatar from "../Images/userAvatar.png"
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import UserIdContext from '../Context/UserIdContext';
+import MonitorHeart from '@mui/icons-material/MonitorHeart';
+import AnchorLink from "react-anchor-link-smooth-scroll";
+import Dashboard from './Dashboard';
+import Wishlist2 from './Wishlist2';
 
+
+
+const host = "http://localhost:5555";
 const pages = ['Dashboard', 'Your Wishlist'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Whishlist', 'Logout'];
 
@@ -62,7 +71,10 @@ const getDesignTokens = (mode) => ({
   
   function Navbar() {
 
+    const navigate = useNavigate();
+
       const {darkMode} = React.useContext(ThemeContext)
+      const {userId, setUserId} = React.useContext(UserIdContext)
       const [anchorElNav, setAnchorElNav] = React.useState(null);
       const [anchorElUser, setAnchorElUser] = React.useState(null);
       
@@ -74,7 +86,8 @@ const getDesignTokens = (mode) => ({
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
+  const handleOpenUserMenu = async(event) => {
+
     setAnchorElUser(event.currentTarget);
   };
 
@@ -82,21 +95,37 @@ const getDesignTokens = (mode) => ({
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+  const handleCloseUserMenu = async (event) => {
+
+      setAnchorElUser(null);  
+
   };
+
+  const handleLogoutClick = async()=>{
+    try {
+      const response = await axios.get(`${host}/api/logout`);
+      const result = response.data;
+      setUserId("")
+      navigate('/')
+      console.log(result)
+      
+    } catch (error) {
+      console.error('Error during logout:', error);
+
+    }
+  }
 
   return (
     <ThemeProvider theme={darkMode?darkModeTheme:lightModeTheme}>
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <MonitorHeartIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <MonitorHeart sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <AnchorLink href={`#${Dashboard}`} >
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="/"
+            
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -106,9 +135,10 @@ const getDesignTokens = (mode) => ({
               color: 'inherit',
               textDecoration: 'none',
             }}
-          >
+            >
             STOCK MONITOR
           </Typography>
+            </AnchorLink>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -146,12 +176,13 @@ const getDesignTokens = (mode) => ({
               ))}
             </Menu>
           </Box>
-          <MonitorHeartIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <MonitorHeart sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <AnchorLink href={`#${Dashboard}`}> 
           <Typography
             variant="h5"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="/dashboard"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -165,18 +196,21 @@ const getDesignTokens = (mode) => ({
           >
             STOCK MONITOR
           </Typography>
+          </AnchorLink>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-
+            
               <Button
               
                 key={page}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                <Link href={`/${page}`} sx={{color: 'inherit', textDecoration:"inherit"}}>{page}</Link>
+                >
+                {page}
+                {/* <Link href={`/dashboard`}  sx={{color: 'inherit', textDecoration:"inherit"}}>{page}</Link> */}
                 
               </Button>
+              
             ))}
           </Box>
 
@@ -203,7 +237,7 @@ const getDesignTokens = (mode) => ({
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem  key={setting} value={setting} onClick={(setting==='Logout')?handleLogoutClick:handleCloseUserMenu}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}

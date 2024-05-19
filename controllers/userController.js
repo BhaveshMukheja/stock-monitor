@@ -9,6 +9,7 @@ const saltRounds = 10;
 exports.signup = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
+    console.log(name, email, password)
     //check
 
     if (!name || !email || !password) {
@@ -27,6 +28,7 @@ exports.signup = async (req, res, next) => {
 
     //send user a token
     cookieToken(user, res);
+    
   } catch (error) {
     throw new Error(error);
   }
@@ -34,7 +36,7 @@ exports.signup = async (req, res, next) => {
 
 //user login
 
-exports.login = async (req, res, next) => {
+exports.signin = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -132,6 +134,7 @@ exports.removeFromWishlist = async (req, res, next) => {
         }
       }
 
+      
       const result = await prisma.user.update({
         where: {
           id: id,
