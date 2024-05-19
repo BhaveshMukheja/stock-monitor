@@ -1,5 +1,8 @@
-import React from 'react'
+//Creating Theme Context to manage the theme of the application
 
-const ThemeContext = React.createContext()
+import React, { createContext } from 'react'
+
+
+const ThemeContext = createContext()
 
 export default ThemeContext

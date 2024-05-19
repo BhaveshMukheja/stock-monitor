@@ -1,3 +1,5 @@
+// some configurations used in the project for the ease of dvelopmemnt and transversal 
+
 export const interval={
     "1":"1min",
     "5":"5min",

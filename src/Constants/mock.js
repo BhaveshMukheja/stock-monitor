@@ -1,3 +1,7 @@
+//Mock data used for the frontend development in the initial phase before the Alpha Vantage API was integrated
+
+
+// An array of Details of some Stock 
 export const mockSearchResults = 
     [{
         "Symbol": "WMT",
@@ -107,6 +111,8 @@ export const mockSearchResults =
 }]
     
     
+// Details of a company 
+
    export const mockCompanyDetials = {
     "Symbol": "WMT",
     "AssetType": "Common Stock",
@@ -161,6 +167,8 @@ export const mockSearchResults =
     "ExDividendDate": "2024-08-15"
    }
 
+   // mock stock quotes of some companies 
+
    export const mockStockQuote =[
     {
         "01. symbol": "WMT",
@@ -202,6 +210,8 @@ export const mockSearchResults =
 
 
 ]
+
+// mock historial data of a a company 
 
 export const mockHistoricalData ={
     "Meta Data": {
