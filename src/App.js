@@ -19,7 +19,7 @@ function App() {
   const [stockSymbol, setStockSymbol] = useState("WMT");
   
   // State to manage the user ID
-  const [userId, setUserId] = useState("6648a323db22da036da66557");
+  const [userId, setUserId] = useState("");
 
   return (
     // Providing theme context to the entire application

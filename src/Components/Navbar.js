@@ -235,6 +235,7 @@ function Navbar() {
                   <MenuItem
                     key={setting}
                     value={setting}
+                    sx={{color: 'white'}}
                     onClick={
                       setting === "Logout"
                         ? handleLogoutClick
