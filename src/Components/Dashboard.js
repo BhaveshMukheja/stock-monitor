@@ -7,6 +7,7 @@ import Chart from "./Chart";
 import { mockCompanyDetials, mockHistoricalData } from "../Constants/mock";  
 import ThemeContext from "../Context/ThemeContext";  
 import StockContext from "../Context/StockContext";  
+import UserIdContext from "../Context/UserIdContext";
 import { fetchHistorialData, fetchQuote, fetchStockDetails } from "../api/stockApi";  
 import Navbar from "./Navbar"; 
 import Wishlist2 from "./Wishlist2";  
@@ -16,6 +17,8 @@ const Dashboard = () => {
   const { darkMode } = useContext(ThemeContext);
   // Accessing stockSymbol state from StockContext
   const { stockSymbol } = useContext(StockContext);
+   // Accessing userId state from StockContext
+   const {userId} = useContext(UserIdContext)
 
   // State variables for stock details and quote
   const [stockDetails, setStockDetails] = useState({});
@@ -49,7 +52,7 @@ const Dashboard = () => {
 
     updateStockDetails();
     updateStockQuote();
-  }, [stockSymbol]);
+  }, [stockSymbol, userId]);
 
   return (
     <>

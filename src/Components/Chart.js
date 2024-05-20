@@ -12,12 +12,15 @@ import ThemeContext from '../Context/ThemeContext';
 import StockContext from '../Context/StockContext'; 
 import { createTheme, useTheme, ThemeProvider } from '@mui/material/styles';  
 import { fetchHistorialData } from '../api/stockApi'; 
+import UserIdContext from '../Context/UserIdContext';
 
 const Chart = () => {
   // Accessing darkMode state from ThemeContext
   const { darkMode } = useContext(ThemeContext);
   // Accessing stockSymbol state from StockContext
   const { stockSymbol } = useContext(StockContext);
+ // Accessing userId state from StockContext
+  const {userId} = useContext(UserIdContext)
 
   // Creating dark theme configuration
   const darkTheme = createTheme({
@@ -82,7 +85,7 @@ const Chart = () => {
 
     fetchData();
     updateChartData();
-  }, [stockSymbol, intervalFilter, dateValue]);
+  }, [stockSymbol, intervalFilter, dateValue, userId]);
 
   return (
     <Card>

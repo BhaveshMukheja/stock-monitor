@@ -7,6 +7,8 @@ import ThemeContext from '../Context/ThemeContext';
 
 const Details = (details) => {
     const { darkMode } = useContext(ThemeContext);  // Accessing darkMode state from ThemeContext
+     // Accessing userId state from StockContext
+
 
     // Object containing details to display and their corresponding labels
     const detailsList =  {

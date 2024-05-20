@@ -1,6 +1,4 @@
-// declare global {
-//     var prisma: PrismaClient; // This must be a `var` and not a `let / const`
-//   }
+// Setting up the prisma client 
   
 const { PrismaClient } = require('@prisma/client');
 

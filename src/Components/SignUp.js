@@ -6,43 +6,51 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import UserIdContext from '../Context/UserIdContext';
 
+// Define the host for API requests
 const host = "http://localhost:5555";
 
 const SignUp = () => {
-  const navigate = useNavigate();
-  const [credentials, setCredentials] = useState({ name: "", email: "", password: "", cpassword: "" });
-  const { setUserId } = useContext(UserIdContext);
+  const navigate = useNavigate(); // Hook for navigation
+  const [credentials, setCredentials] = useState({ name: "", email: "", password: "", cpassword: "" }); // State for form inputs
+  const { setUserId } = useContext(UserIdContext); // Context to manage user ID
 
+  // Handler for form submission
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default form submission
     const { name, email, password } = credentials;
 
     try {
+      // Send POST request to sign up API
       const response = await axios.post(`${host}/api/signup`, { name, email, password });
       const json = response.data;
 
-      console.log(json);
-      setUserId(json.user.id);
+      console.log(json); // Log the response
+      setUserId(json.user.id); // Set user ID in context
       console.log(`Welcome Aboard ${name}!!!`);
-      navigate("/dashboard");
+      navigate("/dashboard"); // Navigate to dashboard
+
     } catch (error) {
-      console.error('Error during sign-up:', error);
+      console.error('Error during sign-up:', error); // Log errors
       console.log("Invalid Credentials");
     }
   };
 
+  // Handler for input changes
   const onChange = (e) => {
-    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+    setCredentials({ ...credentials, [e.target.name]: e.target.value }); // Update state with new input values
   };
 
   return (
     <>
       <div className="w-full h-screen flex flex-row">
+        {/* Left section with image */}
         <div className="flex h-screen w-1/2">
-          <img src={stockMarket} alt="" className="object-cover" />
+          <img src={stockMarket} alt="Stock Market" className="object-cover" />
         </div>
+        {/* Right section with sign-up form */}
         <section className="w-1/2 bg-gray-50 dark:bg-gray-900">
           <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+            {/* Header with logo and title */}
             <p className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
               <MonitorHeart sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
               <Typography
@@ -65,9 +73,11 @@ const SignUp = () => {
             </p>
             <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
               <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+                {/* Form title */}
                 <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                   Create an account
                 </h1>
+                {/* Sign-up form */}
                 <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
                   <div>
                     <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

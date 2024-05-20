@@ -1,70 +1,92 @@
-# Getting Started with Create React App
+# Getting Started with the Stock-Monitor App by Bhavesh Mukheja
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Important Note:** It is very likely that the Alpha Vantage API key might have been exhausted since it is of a free account. In that case, you may use your own API key by visiting the site [Alpha Vantage](https://www.alphavantage.co/support/#api-key) and pasting your key in the .env file under REACT_APP_API_KEY.
 
-## Available Scripts
+## SETUP INSTRUCTIONS FOR LOCAL DEPLOYMENT
 
-In the project directory, you can run:
+**STEP 1:** Clone the [Project's Github Repository](https://github.com/BhaveshMukheja/stock-monitor) on your PC. You may refer to the [Github Docs](https://docs.github.com/en/desktop/adding-and-cloning-repositories/cloning-and-forking-repositories-from-github-desktop) to know how to clone a Github repo.
 
-### `npm start`
+**STEP 2:** Open the Windows Powershell in the project folder on your PC. Alternatively, you may choose to open VS code and proceed with the further steps.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+**STEP 3:** Install the necessary modules. Run: `npm install`
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+**STEP 4:** After the installation, run: `npm run start` It will start the backend of the project and will be running on port localhost:5555.
 
-### `npm test`
+**STEP 5:** Then open another terminal in the folder and run: `npm run dev` It will start the frontend of the project and will be running on port localhost:3000.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Now you can go to the browser of your choice and enjoy stock monitoring.
 
-### `npm run build`
+## Backend Documentation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Overview
+The backend of Stock-Monitor is responsible for managing user authentication, user data, and interaction with the database. It is built using Node.js with Express.js, and it integrates Prisma ORM for seamless database operations.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Technologies Used
+- Node.js
+- Express.js
+- Prisma ORM
+- JWT for authentication
+- bcrypt hashing for improving security
+- MongoDB Atlas for database management
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Endpoints
 
-### `npm run eject`
+1. **User Authentication**
+   - `/signup` - POST: Endpoint for user registration.
+   - `/signin` - POST: Endpoint for user login.
+   - `/logout` - GET: Endpoint for user logout.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+2. **Wishlist Management**
+   - `/add/:id` - PUT: Endpoint to add a stock to the user's wishlist.
+   - `/remove/:id` - PUT: Endpoint to remove a stock from the user's wishlist.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. **User Data**
+   - `/user/:id` - POST: Endpoint to fetch user data.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Middlewares
+- `isLoggedIn`: Middleware to check if the user is authenticated using JWT token.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Helpers
+- `getJwtToken`: To generate the JWT token for the user.
 
-## Learn More
+### Utilities
+- `cookieToken`: Function to generate JWT token and set it as a cookie upon user authentication.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Frontend Documentation
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Overview
+The frontend of Stock-Monitor provides an intuitive user interface for users to monitor their stock portfolios. It is built using React.js and Tailwind CSS, providing a responsive and visually appealing experience.
 
-### Code Splitting
+### Technologies Used
+- React.js
+- Tailwind CSS
+- Material-UI for UI components
+- Axios for HTTP requests
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Components
 
-### Analyzing the Bundle Size
+1. **Theme Icon**
+   - Functionality: Allows users to switch between light and dark themes.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+2. **Wishlist Component**
+   - Functionality: Displays the user's wishlist of stocks with options to add/remove stocks and view detailed information.
 
-### Making a Progressive Web App
+3. **Card Component**
+   - Functionality: Renders a card layout for displaying stock information.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Contexts
+- `ThemeContext`: Manages the theme state for the application.
+- `UserIdContext`: Provides the user ID throughout the application.
+- `StockContext`: Manages the stock symbol state.
 
-### Advanced Configuration
+### APIs
+- `stockApi`: API module for fetching stock data from the Alpha Vantage Stock API.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Routes
+- `/signup`: Route for user registration.
+- `/`: Route for user login.
+- `/dashboard`: Route for viewing and managing the user's wishlist.
 
-### Deployment
+## About the Project 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Stock-Monitor is a comprehensive full-stack web application for tracking and managing stock portfolios, built using React and Material-UI on the frontend and Node.js, Express, and Prisma on the backend. It features dynamic theming, interactive stock tables, and secure user authentication with JWT and bcrypt. The application utilizes MongoDB Atlas for its database and demonstrates robust error handling and state management using React Context API. Overall, Stock-Monitor exemplifies modern web development practices, providing a seamless and responsive user experience.
